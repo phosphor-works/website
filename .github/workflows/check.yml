@@ -1,0 +1,59 @@
+# SPDX-FileCopyrightText: 2026 fuddlesworth
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Pull request check: type-check and build the Astro site, then check its
+# internal links. The deploy builds the same site with the upstream data and
+# the Doxygen API reference, and reports links only as an advisory because a
+# few /api/html/ pages are expected to be missing. This check has no API
+# reference, so it skips /api/ and fails on any other broken link.
+
+name: Check
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Build and links
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      # The pinned branding release (SVGs and palette) into vendor/.
+      - name: Fetch branding
+        run: npm run fetch:branding
+
+      - name: Type-check
+        run: npm run check
+
+      - name: Build
+        run: npx astro build
+
+      - name: Check internal links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress --offline
+            --root-dir ${{ github.workspace }}/dist
+            --exclude-path ${{ github.workspace }}/dist/api
+            --exclude '^file://.*/api/'
+            ${{ github.workspace }}/dist
+          fail: true
