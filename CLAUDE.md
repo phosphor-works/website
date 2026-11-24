@@ -66,8 +66,10 @@ The Pagefind index is made by the build, so search works under `npm run preview`
 
 ## CI and deploy
 
-`.github/workflows/deploy.yml` is the only workflow. It runs on a push to `main`, every night at 09:17 UTC and on
-demand. There is no pull-request check, so run `npm run check` and `npm run build` before a pull request.
+`.github/workflows/check.yml` runs on every pull request: `npm run check`, the Astro build and lychee over the
+site's own pages, which fails on a broken internal link (it skips `/api/`, which only the deploy builds).
+
+`.github/workflows/deploy.yml` runs on a push to `main`, every night at 09:17 UTC and on demand.
 
 The build job clones each upstream at the tip of `main` into `_src/`, builds `luau` from the Luau pin of
 phosphor-libs, fetches branding, runs the PlasmaZones sync, builds the Doxygen reference and runs `npx astro build`.
@@ -77,4 +79,5 @@ live site to it. The secrets are in the `vps` environment. Nothing the build syn
 
 ## License
 
-The code is `GPL-3.0-or-later`, in each file's SPDX header, with the text in `LICENSE`. Brand assets from the branding repository (and `public/og-image.svg`) are `CC-BY-SA-4.0`.
+The code is `GPL-3.0-or-later`, in each file's SPDX header, with the text in `LICENSE`. Brand assets from the
+branding repository (and `public/og-image.svg`) are `CC-BY-SA-4.0`.
