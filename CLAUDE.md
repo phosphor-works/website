@@ -77,5 +77,4 @@ live site to it. The secrets are in the `vps` environment. Nothing the build syn
 
 ## License
 
-The code is `GPL-3.0-or-later`, in each file's SPDX header. The repository has no `LICENSE` file or `LICENSES/`
-folder. Brand assets from the branding repository (and `public/og-image.svg`) are `CC-BY-SA-4.0`.
+The code is `GPL-3.0-or-later`, in each file's SPDX header, with the text in `LICENSE`. Brand assets from the branding repository (and `public/og-image.svg`) are `CC-BY-SA-4.0`.
