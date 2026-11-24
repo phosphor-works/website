@@ -24,10 +24,13 @@ jobs:
   check:
     name: Build and links
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     env:
       # The site config reads the other repositories (Afterglow's docs, the
-      # galleries), found under this directory by repository name.
-      PHOSPHOR_WORKS_SRC: ${{ github.workspace }}/_src
+      # galleries), found under this directory by repository name. Outside the
+      # checkout: astro check type-checks everything under the project, and
+      # with the clones inside it ran for hours.
+      PHOSPHOR_WORKS_SRC: ${{ github.workspace }}/../_src
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -67,7 +70,6 @@ jobs:
             --no-progress --offline
             --root-dir ${{ github.workspace }}/dist
             --exclude-path ${{ github.workspace }}/dist/api
-            --exclude-path ${{ github.workspace }}/_src
             --exclude '^file://.*/api/'
             ${{ github.workspace }}/dist
           fail: true
