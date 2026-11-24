@@ -54,8 +54,8 @@ The Pagefind index is made by the build, so search works under `npm run preview`
   together). The release unpacks into `vendor/branding/`, which is gitignored. `public/brand/assets` and
   `public/palette/phosphor.toml` are symlinks into it, and `src/data/palette.ts` and the Expressive Code theme
   (`src/themes/`) read the palette TOML.
-- The sibling checkouts `../PlasmaZones`, `../phosphor-surface-packs`, `../phosphor-libs`, `../phosphor-shell-libs`
-  and `../Afterglow` feed the galleries, the API reference and the Afterglow pages. `scripts/upstream-checkouts.mjs`
+- The sibling checkouts `../PlasmaZones`, `../phosphor-surface-packs`, `../phosphor-libs`, `../phosphor-engine-libs`,
+  `../phosphor-shell-libs` and `../Afterglow` feed the galleries, the API reference and the Afterglow pages. `scripts/upstream-checkouts.mjs`
   finds them. `PHOSPHOR_WORKS_SRC` moves all of them, and a per-repository variable (`PLASMAZONES_SRC`,
   `AFTERGLOW_SRC` and others, listed in the README) moves one.
 - Afterglow: `src/lib/remark-afterglow-docs.mjs` renders Afterglow's `docs/` as `/afterglow/<doc>/`. It lifts the H1

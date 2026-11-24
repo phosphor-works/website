@@ -71,7 +71,8 @@ checked out next to this one:
 | --- | --- | --- |
 | `../PlasmaZones` | layouts, overlays, animations, scrolling templates, algorithms, changelog, D-Bus XML | `PLASMAZONES_SRC` |
 | `../phosphor-surface-packs` | the surface shader gallery | `PHOSPHOR_SURFACE_PACKS_SRC` |
-| `../phosphor-libs` | core library headers, the `pluau` prelude for algorithm previews | `PHOSPHOR_LIBS_SRC` |
+| `../phosphor-libs` | core library headers, the Luau pin for the algorithm previews | `PHOSPHOR_LIBS_SRC` |
+| `../phosphor-engine-libs` | placement engine headers, the `pluau` prelude for the algorithm previews | `PHOSPHOR_ENGINE_LIBS_SRC` |
 | `../phosphor-shell-libs` | shell library headers | `PHOSPHOR_SHELL_LIBS_SRC` |
 | `../Afterglow` | the Afterglow docs pages | `AFTERGLOW_SRC` |
 

@@ -4,8 +4,8 @@
 #
 # Translate sibling-repo library READMEs into Doxygen pages.
 #
-# Each libs/phosphor-<slug>/README.md in phosphor-libs and
-# phosphor-shell-libs is the source of truth
+# Each libs/phosphor-<slug>/README.md in phosphor-libs, phosphor-engine-libs
+# and phosphor-shell-libs is the source of truth
 # for that library's hand-written explanation. Those READMEs are pure
 # Markdown so they render cleanly on github.com — they don't carry any
 # Doxygen-specific syntax. This script lifts them into the Doxygen
@@ -38,7 +38,7 @@ import typing
 # [X](../phosphor-FOO/README.md) -> @ref lib_phosphor_FOO "X"
 # Accepts hyphens in the slug; URL fragment must end with README.md.
 # A link to another library's README, from any depth, so links between
-# phosphor-libs/libs/ and phosphor-shell-libs/libs/ resolve as well.
+# the library repositories' libs/ trees resolve as well.
 _SIBLING_LINK_RE = re.compile(
     r"\[([^\]]+)\]\((?:[./A-Za-z0-9_-]*/)?phosphor-([A-Za-z0-9-]+)/README\.md\)"
 )
