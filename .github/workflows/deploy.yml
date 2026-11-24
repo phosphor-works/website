@@ -6,8 +6,9 @@
 # template with three additions:
 #
 #   1. Check out the upstream repositories the site is built from, side
-#      by side under _src/: phosphor-libs and phosphor-shell-libs (the
-#      headers doxygen scans), PlasmaZones (gallery data, changelog,
+#      by side under _src/: phosphor-libs, phosphor-engine-libs and
+#      phosphor-shell-libs (the headers doxygen scans, and the pluau
+#      prelude in phosphor-engine-libs), PlasmaZones (gallery data, changelog,
 #      D-Bus XML), phosphor-surface-packs (the surface gallery) and
 #      Afterglow (its docs).  Branding is not checked out: the site
 #      pins a branding release, as the apps do (scripts/fetch-branding.mjs).
@@ -62,7 +63,7 @@ jobs:
       - name: Check out the upstream sources
         run: |
           set -euo pipefail
-          for repo in PlasmaZones phosphor-libs phosphor-shell-libs phosphor-surface-packs Afterglow; do
+          for repo in PlasmaZones phosphor-libs phosphor-engine-libs phosphor-shell-libs phosphor-surface-packs Afterglow; do
             git clone --quiet --depth 1 --branch main \
               "https://github.com/phosphor-works/$repo.git" "$PHOSPHOR_WORKS_SRC/$repo"
             echo "$repo $(git -C "$PHOSPHOR_WORKS_SRC/$repo" rev-parse HEAD)"

@@ -13,11 +13,11 @@
 //     PlasmaZones             layouts, overlays, animations, scrolling
 //                             templates, algorithms, CHANGELOG.md
 //     phosphor-surface-packs  the surface shader packs
-//     phosphor-libs           the pluau prelude the algorithms run against
+//     phosphor-engine-libs    the pluau prelude the algorithms run against
 //
 // They are looked up under $PHOSPHOR_WORKS_SRC (default: the directory
 // holding this repo), and each can be pointed elsewhere on its own with
-// $PLASMAZONES_SRC, $PHOSPHOR_SURFACE_PACKS_SRC or $PHOSPHOR_LIBS_SRC.
+// $PLASMAZONES_SRC, $PHOSPHOR_SURFACE_PACKS_SRC or $PHOSPHOR_ENGINE_LIBS_SRC.
 // Emits one aggregate JSON file per data family — the gallery pages
 // import them directly.
 
@@ -28,11 +28,11 @@ import { execFileSync } from "node:child_process";
 import { parseChangelog } from "../src/loaders/changelog-parse.ts";
 import { checkout, siteRoot, worksRoot } from "./upstream-checkouts.mjs";
 
-let src, packsSrc, libsSrc;
+let src, packsSrc, engineLibsSrc;
 try {
     src = checkout("PLASMAZONES_SRC", "PlasmaZones", "plasmazones/data");
     packsSrc = checkout("PHOSPHOR_SURFACE_PACKS_SRC", "phosphor-surface-packs", "packs");
-    libsSrc = checkout("PHOSPHOR_LIBS_SRC", "phosphor-libs", "libs");
+    engineLibsSrc = checkout("PHOSPHOR_ENGINE_LIBS_SRC", "phosphor-engine-libs", "libs/phosphor-tiles");
 } catch (err) {
     console.error(err.message);
     process.exit(1);
@@ -243,7 +243,7 @@ function wrapYaml(text, width = 68) {
 // Each .luau file returns `pluau.algorithm{ metadata = …, tile = … }`.
 // We can't evaluate Luau in Node, so we run each script through the
 // `luau` CLI against the bundled `pluau` standard library — the exact
-// prelude the daemon injects (phosphor-libs: libs/phosphor-tiles/src/pluau/pluau.luau) —
+// prelude the daemon injects (phosphor-engine-libs: libs/phosphor-tiles/src/pluau/pluau.luau) —
 // to capture BOTH the metadata table AND a preview window arrangement
 // we render as an SVG thumbnail.
 //
@@ -252,7 +252,7 @@ function wrapYaml(text, width = 68) {
 // regenerate previews, so we leave the committed algorithms.json
 // untouched rather than emit an empty file.
 const algoDir = path.join(src, "plasmazones/data/algorithms");
-const preludePath = path.join(libsSrc, "libs/phosphor-tiles/src/pluau/pluau.luau");
+const preludePath = path.join(engineLibsSrc, "libs/phosphor-tiles/src/pluau/pluau.luau");
 const luauBin = process.env.LUAU || "luau";
 
 // Preview canvas: 1920x1080 so pz.MIN_ZONE_SIZE (50) won't clip

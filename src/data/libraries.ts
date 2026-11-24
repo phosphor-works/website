@@ -3,8 +3,8 @@
 //
 // Library metadata consumed by /libraries/ index + /libraries/<slug>/
 // dynamic pages.  Deep content (responsibility, key types, typical use,
-// design notes) lives in the per-library README at
-// PlasmaZones/libs/phosphor-<slug>/README.md and is stitched into the
+// design notes) lives in the per-library README at libs/phosphor-<slug>/README.md
+// in phosphor-libs, phosphor-engine-libs or phosphor-shell-libs, stitched into the
 // Doxygen api/html tree by scripts/readme-to-doxypage.py.  This file is
 // the lightweight Astro card surface; keep it thin and in sync with the
 // repo's library set.

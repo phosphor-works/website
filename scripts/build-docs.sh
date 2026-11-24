@@ -11,6 +11,7 @@
 #   PHOSPHOR_WORKS_SRC       Directory holding the sibling checkouts below
 #                            (default: the directory holding this repo)
 #   PHOSPHOR_LIBS_SRC        phosphor-libs checkout (core libraries)
+#   PHOSPHOR_ENGINE_LIBS_SRC phosphor-engine-libs checkout (placement engines)
 #   PHOSPHOR_SHELL_LIBS_SRC  phosphor-shell-libs checkout (shell libraries)
 #   PLASMAZONES_SRC          PlasmaZones checkout (D-Bus interface XML)
 #   DOXYGEN_AWESOME          Tag of doxygen-awesome-css to fetch (default: v2.3.4)
@@ -53,19 +54,21 @@ fi
 echo "doxygen: $(doxygen --version)"
 
 # ── Source checkouts ────────────────────────────────────────────────────────
-# The libraries live in two repositories, core libraries in phosphor-libs and
-# shell libraries in phosphor-shell-libs, each under libs/.  PlasmaZones only
+# The libraries live in three repositories, each under libs/: core libraries in
+# phosphor-libs, the placement engines in phosphor-engine-libs and shell
+# libraries in phosphor-shell-libs.  PlasmaZones only
 # contributes its D-Bus interface XML.
 : "${PHOSPHOR_WORKS_SRC:=$(dirname "$ROOT")}"
 : "${PHOSPHOR_LIBS_SRC:=$PHOSPHOR_WORKS_SRC/phosphor-libs}"
+: "${PHOSPHOR_ENGINE_LIBS_SRC:=$PHOSPHOR_WORKS_SRC/phosphor-engine-libs}"
 : "${PHOSPHOR_SHELL_LIBS_SRC:=$PHOSPHOR_WORKS_SRC/phosphor-shell-libs}"
 : "${PLASMAZONES_SRC:=$PHOSPHOR_WORKS_SRC/PlasmaZones}"
 
 # Parallel arrays: the repository each library root belongs to, so README
 # links can be rewritten to the right GitHub repository.
-LIB_REPOS=(phosphor-libs phosphor-shell-libs)
-LIB_CHECKOUTS=("$PHOSPHOR_LIBS_SRC" "$PHOSPHOR_SHELL_LIBS_SRC")
-LIB_VARS=(PHOSPHOR_LIBS_SRC PHOSPHOR_SHELL_LIBS_SRC)
+LIB_REPOS=(phosphor-libs phosphor-engine-libs phosphor-shell-libs)
+LIB_CHECKOUTS=("$PHOSPHOR_LIBS_SRC" "$PHOSPHOR_ENGINE_LIBS_SRC" "$PHOSPHOR_SHELL_LIBS_SRC")
+LIB_VARS=(PHOSPHOR_LIBS_SRC PHOSPHOR_ENGINE_LIBS_SRC PHOSPHOR_SHELL_LIBS_SRC)
 LIB_ROOTS=()
 for i in "${!LIB_REPOS[@]}"; do
     root="${LIB_CHECKOUTS[$i]}/libs"

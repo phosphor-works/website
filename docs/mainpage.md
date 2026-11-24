@@ -13,13 +13,15 @@ Wayland libraries for window placement, rendering, layer-shell surfaces
 and desktop shell services.  Each library owns a single responsibility,
 so you pull in only what you need.
 
-The libraries live in two repositories, core libraries in
-[phosphor-libs][libs] and shell libraries in [phosphor-shell-libs][shell],
-each under `libs/`.  These docs are generated from their public headers,
+The libraries live in three repositories, each under `libs/`. The core
+libraries are in [phosphor-libs][libs], the placement engines are in
+[phosphor-engine-libs][engine] and the shell libraries are in
+[phosphor-shell-libs][shell].  These docs are generated from their public headers,
 with each library's hand-written design notes coming from its `README.md`
 where it has one.
 
 [libs]: https://github.com/phosphor-works/phosphor-libs
+[engine]: https://github.com/phosphor-works/phosphor-engine-libs
 [shell]: https://github.com/phosphor-works/phosphor-shell-libs
 
 
