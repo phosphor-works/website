@@ -55,7 +55,7 @@ jobs:
       PHOSPHOR_WORKS_SRC: ${{ github.workspace }}/_src
     steps:
       - name: Checkout website
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       # Every upstream at the tip of main, so the site never waits on a
       # pin bump here.  The commit of each is printed so a nightly build
@@ -186,7 +186,7 @@ jobs:
         run: tar --dereference --hard-dereference -C dist -czf site.tar.gz .
 
       - name: Upload the site artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: site
           path: site.tar.gz
@@ -210,7 +210,7 @@ jobs:
       url: https://phosphor-works.org/
     steps:
       - name: Download the site artifact
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v8
         with:
           name: site
           path: artifact
