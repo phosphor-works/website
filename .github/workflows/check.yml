@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2026 fuddlesworth
+# SPDX-FileCopyrightText: 2026 Phosphor Works Team
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 # Pull request check: type-check and build the Astro site, then check its
@@ -33,7 +33,7 @@ jobs:
       PHOSPHOR_WORKS_SRC: ${{ github.workspace }}/../_src
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       # The upstreams at the tip of main, as the deploy builds them.
       - name: Check out the upstream sources
