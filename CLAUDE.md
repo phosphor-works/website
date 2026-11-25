@@ -1,18 +1,28 @@
 <!-- SPDX-FileCopyrightText: 2026 Phosphor Works Team -->
 <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 
+<!-- BEGIN shared: tools/sync writes this block from workspace/sync/claude-header.md. Change it there. -->
 # website
+
+This file has two parts. The rules that every phosphor-works repository follows come first, from the conventions of
+the workspace repository, imported below. The sections after them belong to this repository only: what it is, its
+layout, how to build and test it, and its own rules, code, skills and agents, and links to the other repositories.
+A section here does not repeat a convention. When a section and the conventions disagree, change one of them so
+that they agree.
+
+The Claude Code tooling comes from the plugins that `.claude/settings.json` enables and `workspace/tools/setup`
+installs. The `phosphor-works` plugin has the command guard, the shared skills (`phosphor-works:build`, `debug`,
+`code-audit`, `record-lesson`, `new-repo`), the shared reviewers, and the lesson index, which adds the lessons that
+fit each prompt.
+
+@../workspace/claude/conventions.md
+<!-- END shared -->
+
+## Overview
 
 The phosphor-works site at <https://phosphor-works.org>: the app pages, the library pages, the guides, the news, the
 palette and brand pages, and the Doxygen API reference under `/api/`. It is a static Astro site (`package.json` name
 `phosphor-web`) that reads much of its content from the other phosphor-works repositories at build time.
-
-The rules every phosphor-works repository follows come from the workspace repository, imported below. This file adds
-website's own. The shared Claude Code tooling (the command guard, `phosphor-works:code-audit`, the shared reviewers,
-the lesson index) comes from the `phosphor-works` plugin, which `.claude/settings.json` enables and
-`workspace/tools/setup` installs.
-
-@../workspace/claude/conventions.md
 
 ## Layout
 
@@ -29,12 +39,7 @@ the lesson index) comes from the `phosphor-works` plugin, which `.claude/setting
 - `astro.config.mjs` sets `site`, `output: "static"` and the integrations (Expressive Code, astro-icon, sitemap,
   Pagefind, astro-compress). `ec.config.mjs` holds the Expressive Code options.
 
-## Page text
-
-The writing rules of the conventions apply to all text here: page copy, titles, descriptions, news entries and data
-strings that a page shows, and code comments too.
-
-## Build and run
+## Build and test
 
 | Command | Does |
 | --- | --- |
@@ -47,6 +52,31 @@ strings that a page shows, and code comments too.
 | `npm run fetch:branding` | downloads the pinned branding release into `vendor/branding/` |
 
 The Pagefind index is made by the build, so search works under `npm run preview` and not under `npm run dev`.
+
+### CI and deploy
+
+`.github/workflows/check.yml` runs on every pull request: `npm run check`, the Astro build and lychee over the
+site's own pages, which fails on a broken internal link (it skips `/api/`, which only the deploy builds).
+
+`.github/workflows/deploy.yml` runs on a push to `main`, every night at 09:17 UTC and on demand.
+
+The build job clones each upstream at the tip of `main` into `_src/`, builds `luau` from the Luau pin of
+phosphor-libs, fetches branding, runs the PlasmaZones sync, builds the Doxygen reference and runs `npx astro build`.
+It merges `api/html/` into `dist/api/html/`, then runs lychee over `dist/`. lychee is advisory (`fail: false`).
+The deploy job uploads one tarball over SFTP through a Cloudflare Tunnel to the project server, which switches the
+live site to it. The secrets are in the `vps` environment. Nothing the build syncs is committed back.
+
+## Rules
+
+### Page text
+
+The writing rules of the conventions apply to all text here: page copy, titles, descriptions, news entries and data
+strings that a page shows, and code comments too.
+
+### License
+
+The code is `GPL-3.0-or-later`, in each file's SPDX header, with the text in `LICENSE`. Brand assets from the
+branding repository (and `public/og-image.svg`) are `CC-BY-SA-4.0`.
 
 ## Other repositories
 
@@ -63,21 +93,3 @@ The Pagefind index is made by the build, so search works under `npm run preview`
 - phosphor-bots: the issues pages (`src/pages/issues/`) are served on issues.phosphor-works.org, beside the files
   that Glim writes there. The browser reads Glim's `/api/posts.json`. The sitemap leaves them out.
 - Algorithm previews need the `luau` CLI on `PATH` (or `LUAU`). Without it the sync keeps `algorithms.json`.
-
-## CI and deploy
-
-`.github/workflows/check.yml` runs on every pull request: `npm run check`, the Astro build and lychee over the
-site's own pages, which fails on a broken internal link (it skips `/api/`, which only the deploy builds).
-
-`.github/workflows/deploy.yml` runs on a push to `main`, every night at 09:17 UTC and on demand.
-
-The build job clones each upstream at the tip of `main` into `_src/`, builds `luau` from the Luau pin of
-phosphor-libs, fetches branding, runs the PlasmaZones sync, builds the Doxygen reference and runs `npx astro build`.
-It merges `api/html/` into `dist/api/html/`, then runs lychee over `dist/`. lychee is advisory (`fail: false`).
-The deploy job uploads one tarball over SFTP through a Cloudflare Tunnel to the project server, which switches the
-live site to it. The secrets are in the `vps` environment. Nothing the build syncs is committed back.
-
-## License
-
-The code is `GPL-3.0-or-later`, in each file's SPDX header, with the text in `LICENSE`. Brand assets from the
-branding repository (and `public/og-image.svg`) are `CC-BY-SA-4.0`.
