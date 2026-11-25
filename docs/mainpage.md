@@ -1,24 +1,28 @@
-<!--
-    SPDX-FileCopyrightText: 2026 Phosphor Works Team
-    SPDX-License-Identifier: GPL-3.0-or-later
+<!-- SPDX-FileCopyrightText: 2026 Phosphor Works Team -->
+<!-- SPDX-License-Identifier: GPL-3.0-or-later -->
 
+# Phosphor {#mainpage}
+
+This page is the start page of the Phosphor API reference, for developers who use the Phosphor libraries.
+**Phosphor** is the library layer of the Phosphor desktop. It is a set of focused Qt6 / Wayland libraries for window
+placement, rendering, layer-shell surfaces and desktop shell services. Each library has one responsibility, so you
+use only the libraries that you need.
+
+<!--
     Doxygen main page for the Phosphor API reference.  Consumed by
     docs/Doxyfile via USE_MDFILE_AS_MAINPAGE; becomes api/html/index.html.
 -->
 
-# Phosphor {#mainpage}
+The libraries are in three repositories, each under `libs/`:
 
-**Phosphor** is the library layer of the Phosphor desktop: focused Qt6 /
-Wayland libraries for window placement, rendering, layer-shell surfaces
-and desktop shell services.  Each library owns a single responsibility,
-so you pull in only what you need.
+| Repository | Libraries |
+| --- | --- |
+| [phosphor-libs][libs] | The core libraries |
+| [phosphor-engine-libs][engine] | The placement engines |
+| [phosphor-shell-libs][shell] | The shell libraries |
 
-The libraries live in three repositories, each under `libs/`. The core
-libraries are in [phosphor-libs][libs], the placement engines are in
-[phosphor-engine-libs][engine] and the shell libraries are in
-[phosphor-shell-libs][shell].  These docs are generated from their public headers,
-with each library's hand-written design notes coming from its `README.md`
-where it has one.
+The build makes these pages from the public headers of the libraries. The hand-written design notes of each library
+come from its `README.md`, if it has one.
 
 [libs]: https://github.com/phosphor-works/phosphor-libs
 [engine]: https://github.com/phosphor-works/phosphor-engine-libs
@@ -27,10 +31,9 @@ where it has one.
 
 ## Libraries
 
-The libraries are organized into categories. Click a library name for its
-design and examples page, or a namespace for the generated API surface.
-This section is generated from the website's catalogue
-(`src/data/libraries.ts`) by `scripts/mainpage-libraries.mjs`.
+The libraries are in categories. Click the name of a library for its page of design notes and examples. Click a
+namespace for the generated API. `scripts/mainpage-libraries.mjs` makes this section from the catalog of the website
+(`src/data/libraries.ts`).
 
 <!-- GENERATED:CATEGORY-INDEX -->
 
@@ -39,52 +42,38 @@ This section is generated from the website's catalogue
 
 ## Where to start
 
-- **Browsing by name?** → @ref annotated "Classes" — alphabetical class index
-  across every library.
-- **Browsing by namespace?** → @ref namespaces "Namespaces" — one entry per
-  `Phosphor*` library.
-- **Browsing by header?** → @ref files "Files" — every public header,
-  grouped by library directory.
-- **D-Bus interfaces?** → @ref dbus_apis "D-Bus APIs" — every interface
-  PlasmaZones exposes on the session bus, generated from
-  [`plasmazones/dbus/*.xml`](https://github.com/phosphor-works/PlasmaZones/tree/main/plasmazones/dbus).
-- **Looking for a specific symbol?** → use the search box in the upper
-  corner (indexes class names, method names, and file names).
+| To find | Go to |
+| --- | --- |
+| A class by name | @ref annotated "Classes", the alphabetical class index of all libraries |
+| A namespace | @ref namespaces "Namespaces", with one entry for each `Phosphor*` library |
+| A header | @ref files "Files", with each public header, in groups by library directory |
+| A D-Bus interface | @ref dbus_apis "D-Bus APIs", with each interface that PlasmaZones gives on the session bus. These pages come from [`plasmazones/dbus/*.xml`](https://github.com/phosphor-works/PlasmaZones/tree/main/plasmazones/dbus). |
+| A specific symbol | The search box in the upper corner. It indexes class names, method names and file names. |
 
 
 ## Conventions
 
-All Phosphor libraries share a handful of cross-cutting conventions so
-anything you learn in one library transfers to the others:
+All Phosphor libraries use the same conventions, so what you learn in one library is also true in the others.
 
-- **Namespaces mirror library names** — `libs/phosphor-identity/include/PhosphorIdentity/WindowId.h`
-  declares `PhosphorIdentity::WindowId`.  The `Phosphor` prefix is elided
-  when sorting the class index (you won't see a hundred classes starting
-  with `Phosphor...`).
-- **Public API in `include/`, implementation in `src/`** — everything under
-  each library's `include/` is the stable surface you can link against.
-  `src/` and any `_p.h`/`internal/` headers are intentionally excluded
-  from this reference.
-- **Per-library README is the design page** — each library's
-  `README.md` is the source of truth for its responsibility, key types,
-  examples, and design notes; the build pipeline (`scripts/readme-to-doxypage.py`)
-  stitches them in here.
-- **Qt idioms throughout** — `Q_OBJECT`, `Q_PROPERTY` with READ/WRITE/NOTIFY,
-  parent-based ownership, signals in past tense
-  (`layoutChanged`), slots in imperative (`saveLayout`).  Macros are
-  stripped by the preprocessor before Doxygen parses, so class
-  declarations read cleanly in the generated HTML.
-- **Interface-first for anything pluggable** — config storage, shortcut
-  backends, wallpaper providers, render backends are all declared as
-  abstract `I*` interfaces with one or more concrete implementations.
-  That makes it easy to drop in a different persistence layer or
-  shortcut router without touching the consumers.
+- **Namespaces mirror library names.** `libs/phosphor-identity/include/PhosphorIdentity/WindowId.h` declares
+  `PhosphorIdentity::WindowId`. The class index ignores the `Phosphor` prefix when it sorts. Thus you do not see a
+  hundred classes that start with `Phosphor...`.
+- **Public API in `include/`, implementation in `src/`.** All files under the `include/` of each library are the
+  stable API that you can link against. This reference does not include `src/` and the `_p.h`/`internal/` headers.
+- **The README of each library is its design page.** The `README.md` of each library is the source of truth for its
+  responsibility, key types, examples and design notes. The build (`scripts/readme-to-doxypage.py`) adds them here.
+- **Qt idioms everywhere.** The libraries use `Q_OBJECT`, `Q_PROPERTY` with READ/WRITE/NOTIFY, and ownership by
+  parent. Signals use the past tense (`layoutChanged`). Slots use the imperative (`saveLayout`). The preprocessor
+  removes the macros before Doxygen parses the headers, so the class declarations are clear in the generated HTML.
+- **An interface first for each part that you can replace.** Config storage, shortcut backends, wallpaper providers
+  and render backends are abstract `I*` interfaces with one or more concrete implementations. Thus you can use a
+  different persistence layer or shortcut router without a change to the code that uses it.
 
 
 ## License
 
-All Phosphor libraries: **LGPL-2.1-or-later**.
-Consumers (including PlasmaZones) link against them under that license.
+All Phosphor libraries are licensed under **LGPL-2.1-or-later**. The apps that use them (PlasmaZones included) link
+against them under that license.
 
 
 <!--
