@@ -16,6 +16,8 @@
 #   - ffmpeg on PATH
 #   - PlasmaZones checked out at ../PlasmaZones (or set $PLASMAZONES_SRC,
 #     or $PHOSPHOR_WORKS_SRC for the directory holding it)
+#   - phosphor-engine-libs, which holds the layouts, checked out at
+#     ../phosphor-engine-libs (or set $PHOSPHOR_ENGINE_LIBS_SRC)
 
 set -euo pipefail
 
@@ -36,6 +38,7 @@ site_root() {
 SITE_ROOT="$(site_root)"
 PHOSPHOR_WORKS_SRC="${PHOSPHOR_WORKS_SRC:-$(dirname "$SITE_ROOT")}"
 PLASMAZONES_SRC="${PLASMAZONES_SRC:-$PHOSPHOR_WORKS_SRC/PlasmaZones}"
+PHOSPHOR_ENGINE_LIBS_SRC="${PHOSPHOR_ENGINE_LIBS_SRC:-$PHOSPHOR_WORKS_SRC/phosphor-engine-libs}"
 RENDERER=""
 ONLY=()
 DRY_RUN=0
@@ -54,6 +57,8 @@ Options:
 Env:
     PLASMAZONES_SRC     PlasmaZones repo root
                         (default: \$PHOSPHOR_WORKS_SRC/PlasmaZones)
+    PHOSPHOR_ENGINE_LIBS_SRC  phosphor-engine-libs repo root, for the layouts
+                        (default: \$PHOSPHOR_WORKS_SRC/phosphor-engine-libs)
     PHOSPHOR_WORKS_SRC  Directory holding the sibling checkouts
                         (default: the directory holding this repo)
 EOF
@@ -96,7 +101,7 @@ fi
 # standalone preview harness cannot stage them the way it stages a
 # zone overlay; their galleries render placeholder wells instead.
 SHADER_DIR="$PLASMAZONES_SRC/plasmazones/data/overlays"
-LAYOUT_DIR="$PLASMAZONES_SRC/plasmazones/data/layouts"
+LAYOUT_DIR="$PHOSPHOR_ENGINE_LIBS_SRC/data/layouts"
 OUT_DIR="$SITE_ROOT/public/plasmazones/shaders"
 
 if [[ -z "$RENDERER" ]]; then
