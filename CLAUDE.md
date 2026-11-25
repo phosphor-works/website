@@ -31,8 +31,8 @@ the lesson index) comes from the `phosphor-works` plugin, which `.claude/setting
 
 ## Page text
 
-Page text is user-facing text, so the writing rules of the conventions apply to it: page copy, titles, descriptions,
-news entries and data strings that a page shows. Code comments are exempt.
+The writing rules of the conventions apply to all text here: page copy, titles, descriptions, news entries and data
+strings that a page shows, and code comments too.
 
 ## Build and run
 
