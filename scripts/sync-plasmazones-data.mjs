@@ -10,10 +10,10 @@
 //
 // Reads three sibling checkouts, each its own repository:
 //
-//     PlasmaZones             layouts, overlays, animations, scrolling
-//                             templates, algorithms, CHANGELOG.md
+//     PlasmaZones             overlays, animations, CHANGELOG.md
 //     phosphor-surface-packs  the surface shader packs
-//     phosphor-engine-libs    the pluau prelude the algorithms run against
+//     phosphor-engine-libs    layouts, scrolling templates, algorithms,
+//                             and the pluau prelude the algorithms run against
 //
 // They are looked up under $PHOSPHOR_WORKS_SRC (default: the directory
 // holding this repo), and each can be pointed elsewhere on its own with
@@ -32,7 +32,7 @@ let src, packsSrc, engineLibsSrc;
 try {
     src = checkout("PLASMAZONES_SRC", "PlasmaZones", "plasmazones/data");
     packsSrc = checkout("PHOSPHOR_SURFACE_PACKS_SRC", "phosphor-surface-packs", "packs");
-    engineLibsSrc = checkout("PHOSPHOR_ENGINE_LIBS_SRC", "phosphor-engine-libs", "libs/phosphor-tiles");
+    engineLibsSrc = checkout("PHOSPHOR_ENGINE_LIBS_SRC", "phosphor-engine-libs", "data/algorithms");
 } catch (err) {
     console.error(err.message);
     process.exit(1);
@@ -66,7 +66,7 @@ function requireDir(dir) {
 
 // ── Layouts ──────────────────────────────────────────────────────
 // Each file is already JSON with the shape we need; just aggregate.
-const layoutDir = path.join(src, "plasmazones/data/layouts");
+const layoutDir = path.join(engineLibsSrc, "data/layouts");
 const layouts = fs.readdirSync(requireDir(layoutDir))
     .filter(f => f.endsWith(".json"))
     .map(f => readJson(path.join(layoutDir, f)))
@@ -119,7 +119,7 @@ for (const family of SHADER_FAMILIES) {
 // ── Scrolling templates ────────────────────────────────
 // Scrolling's peer of snapping's layouts and tiling's algorithms: one
 // JSON file each, already the shape the gallery needs.
-const templateDir = path.join(src, "plasmazones/data/scrolling-templates");
+const templateDir = path.join(engineLibsSrc, "data/scrolling-templates");
 const templates = fs.readdirSync(requireDir(templateDir))
     .filter(f => f.endsWith(".json"))
     .map(f => readJson(path.join(templateDir, f)))
@@ -251,7 +251,7 @@ function wrapYaml(text, width = 68) {
 // runtime CI already uses for `luau-analyze`. Without it we cannot
 // regenerate previews, so we leave the committed algorithms.json
 // untouched rather than emit an empty file.
-const algoDir = path.join(src, "plasmazones/data/algorithms");
+const algoDir = path.join(engineLibsSrc, "data/algorithms");
 const preludePath = path.join(engineLibsSrc, "libs/phosphor-tiles/src/pluau/pluau.luau");
 const luauBin = process.env.LUAU || "luau";
 
